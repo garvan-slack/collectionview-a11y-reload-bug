@@ -37,20 +37,23 @@ class FlickrPhotoCell: UICollectionViewCell {
 
   override var isSelected: Bool {
     didSet{
-        if self.isSelected
-        {
+        if self.isSelected {
           self.contentView.backgroundColor = UIColor.red
-        }
-        else
-        {
+        } else {
           self.contentView.backgroundColor = UIColor.clear
         }
     }
   }
 
-  override func prepareForReuse() {
-//    isAccessibilityElement = false
-//    accessibilityLabel = nil
-    self.contentView.backgroundColor = UIColor.clear
-  }
+  /// Nothing here seems to have any effect for VO announcements
+//  override func prepareForReuse() {
+//    self.contentView.backgroundColor = UIColor.clear
+//    self.accessibilityIdentifier = nil
+//    self.accessibilityLabel = nil
+//  }
+
+  /// Interesting: setting `accessibilityLabel` at any point while the cell has VO focus will announce
+//  override func accessibilityElementDidBecomeFocused() {
+//    accessibilityLabel = "focused"
+//  }
 }

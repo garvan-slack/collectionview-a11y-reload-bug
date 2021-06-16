@@ -49,7 +49,8 @@ final class FlickrPhotosViewController: UICollectionViewController {
       if case .success(let results) = searchResults {
         self.searches.insert(results, at: 0)
 
-        self.collectionView!.reloadData()
+        //self.collectionView!.reloadData()
+        self.reload()
       }
     }
   }
@@ -85,10 +86,47 @@ extension FlickrPhotosViewController {
     return cell
   }
 
+  func reload() {
+    UIView.animate(withDuration: 0, animations: {
+      self.collectionView!.reloadData()
+    }) { _ in
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+        self.cellA11y(enable: true)
+      }
+    }
+  }
+
   override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
     print("this will reload data and show the bug")
-    collectionView.reloadData()
+
+    /// Disabling A11Y will remove the first announcement after reload where it is on the wrong cell.
+    /// Note this requires more than one spin of the event loop
+    cellA11y(enable: false)
+    /// view.layoutIfNeeded() , no effect
+    let delay = 0.1 // a delay of zero won't work
+    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+      self.reload()
+    }
     return false
+  }
+
+  func cellA11y(enable: Bool) {
+    for section in 0 ..< collectionView!.numberOfSections {
+      let rowCount = collectionView!.numberOfItems(inSection: section)
+      for row in 0 ..< rowCount {
+        let cell = collectionView!.cellForItem(at: IndexPath(row: row, section: section))
+        cell?.isAccessibilityElement = enable
+
+        /// This has no effect, I tried not setting the label in cellForItemAt and then later, setting the label
+        /// by using the id. This has no added benefit, since setting accessibilityLabel at any time
+        /// triggers the focused cell's announcement
+//        if !enable {
+//          cell?.accessibilityLabel = nil
+//        } else {
+//          cell?.accessibilityLabel = cell!.accessibilityIdentifier
+//        }
+      }
+    }
   }
 }
 
