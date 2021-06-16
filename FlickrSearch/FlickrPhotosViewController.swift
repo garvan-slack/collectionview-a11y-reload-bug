@@ -86,9 +86,10 @@ extension FlickrPhotosViewController {
     return cell
   }
 
-  override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    print("here didSelectItemAt, this will reload data")
+  override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+    print("this will reload data and show the bug")
     collectionView.reloadData()
+    return false
   }
 }
 
