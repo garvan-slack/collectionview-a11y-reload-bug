@@ -48,7 +48,6 @@ final class FlickrPhotosViewController: UICollectionViewController {
     flickr.searchCat() { searchResults in
       if case .success(let results) = searchResults {
         self.searches.insert(results, at: 0)
-
         self.collectionView!.reloadData()
       }
     }

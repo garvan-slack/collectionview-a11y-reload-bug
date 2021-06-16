@@ -34,23 +34,4 @@ import UIKit
 
 class FlickrPhotoCell: UICollectionViewCell {
   @IBOutlet weak var imageView: UIImageView!
-
-  override var isSelected: Bool {
-    didSet{
-        if self.isSelected
-        {
-          self.contentView.backgroundColor = UIColor.red
-        }
-        else
-        {
-          self.contentView.backgroundColor = UIColor.clear
-        }
-    }
-  }
-
-  override func prepareForReuse() {
-//    isAccessibilityElement = false
-//    accessibilityLabel = nil
-    self.contentView.backgroundColor = UIColor.clear
-  }
 }
