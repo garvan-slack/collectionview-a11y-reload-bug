@@ -62,7 +62,6 @@ private extension FlickrPhotosViewController {
   }
 }
 
-var c = 0
 // MARK: - UICollectionViewDataSource
 extension FlickrPhotosViewController {
   override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -80,8 +79,8 @@ extension FlickrPhotosViewController {
     cell.imageView.image = flickrPhoto.thumbnail
     
     cell.isAccessibilityElement = true
-    c += 1
-    cell.accessibilityLabel = "Hello \(c)"
+    cell.accessibilityLabel = "Hello \(indexPath.section)\(indexPath.row)"
+    cell.accessibilityIdentifier = "\(indexPath.section)\(indexPath.row)"
     
     return cell
   }
